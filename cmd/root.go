@@ -21,11 +21,17 @@ running on specific ports.`,
 
 		port := args[0]
 
-		err := finder.FindByPort(port)
+		process, err := finder.FindByPort(port)
 
 		if err != nil {
-			fmt.Println("No process found")
+			fmt.Println(err)
+			return
 		}
+
+		fmt.Println("Process found")
+		fmt.Printf("Name: %s\n", process.Name)
+		fmt.Printf("PID: %s\n", process.PID)
+		fmt.Printf("Port: %s\n", process.Port)
 	},
 }
 
