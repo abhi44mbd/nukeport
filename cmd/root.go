@@ -6,9 +6,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/abhi44mbd/killport/internal/finder"
-	"github.com/abhi44mbd/killport/internal/killer"
-	"github.com/abhi44mbd/killport/internal/output"
+	"github.com/abhi44mbd/nukeport/internal/finder"
+	"github.com/abhi44mbd/nukeport/internal/nuker"
+	"github.com/abhi44mbd/nukeport/internal/output"
 	"github.com/spf13/cobra"
 )
 
@@ -17,9 +17,9 @@ var yes bool
 var dryRun bool
 
 var rootCmd = &cobra.Command{
-	Use:   "killport",
+	Use:   "nukeport",
 	Short: "Find and kill processes running on ports",
-	Long: `killport is a fast and safe CLI tool
+	Long: `nukeport is a fast and safe CLI tool
 	to find and terminate processes
 	running on specific ports.`,
 	Run: func(cmd *cobra.Command, args []string) {
@@ -70,7 +70,7 @@ var rootCmd = &cobra.Command{
 				}
 			}
 
-			err = killer.KillProcess(process.PID, force)
+			err = nuker.NukeProcess(process.PID, force)
 
 			if err != nil {
 				output.Error(fmt.Sprintf(

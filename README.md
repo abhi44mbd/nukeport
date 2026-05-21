@@ -1,4 +1,4 @@
-# killport
+# nukeport
 
 > A fast, safe CLI tool to find and terminate processes running on ports.
 
@@ -11,7 +11,7 @@ kill -9 PID
 Just run:
 
 ```bash
-killport 3000
+nukeport 3000
 ```
 
 ---
@@ -35,17 +35,17 @@ killport 3000
 ### Homebrew (Coming Soon)
 
 ```bash
-brew install abhi44mbd/tools/killport
+brew install abhi44mbd/tools/nukeport
 ```
 
 ### Build From Source
 
 ```bash
-git clone https://github.com/abhi44mbd/killport.git
+git clone https://github.com/abhi44mbd/nukeport.git
 
-cd killport
+cd nukeport
 
-go build -o killport
+go build -o nukeport
 ```
 
 ---
@@ -55,31 +55,31 @@ go build -o killport
 ### Kill Process Running On Port
 
 ```bash
-killport 3000
+nukeport 3000
 ```
 
 ### Force Kill
 
 ```bash
-killport 3000 --force
+nukeport 3000 --force
 ```
 
 or
 
 ```bash
-killport 3000 -f
+nukeport 3000 -f
 ```
 
 ### Skip Confirmation
 
 ```bash
-killport 3000 --yes
+nukeport 3000 --yes
 ```
 
 ### Dry Run
 
 ```bash
-killport 3000 --dry-run
+nukeport 3000 --dry-run
 ```
 
 ---

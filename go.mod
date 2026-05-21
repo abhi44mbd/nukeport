@@ -1,4 +1,4 @@
-module github.com/abhi44mbd/killport
+module github.com/abhi44mbd/nukeport
 
 go 1.26.3
 

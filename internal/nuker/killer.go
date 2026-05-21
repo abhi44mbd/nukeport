@@ -1,11 +1,11 @@
-package killer
+package nuker
 
 import (
 	"os"
 	"syscall"
 )
 
-func KillProcess(pid string, force bool) error {
+func NukeProcess(pid string, force bool) error {
 	process, err := os.FindProcess(toInt(pid))
 
 	if err != nil {
