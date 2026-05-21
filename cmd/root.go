@@ -29,8 +29,11 @@ var rootCmd = &cobra.Command{
 		}
 
 		port := args[0]
+		spinner, _ := output.StartSpinner("Searching for processes...")
 
 		processes, err := finder.FindByPort(port)
+
+		spinner.Stop()
 
 		if err != nil {
 			fmt.Println(err)
@@ -56,8 +59,7 @@ var rootCmd = &cobra.Command{
 			if !yes {
 				reader := bufio.NewReader(os.Stdin)
 
-				fmt.Print("Kill this process? (y/n): ")
-
+				fmt.Print("\nContinue and terminate this process? [y/N]: ")
 				input, _ := reader.ReadString('\n')
 
 				input = strings.TrimSpace(strings.ToLower(input))
@@ -71,7 +73,10 @@ var rootCmd = &cobra.Command{
 			err = killer.KillProcess(process.PID, force)
 
 			if err != nil {
-				output.Error("Failed to kill process")
+				output.Error(fmt.Sprintf(
+					"Failed to terminate PID %s",
+					process.PID,
+				))
 				continue
 			}
 
