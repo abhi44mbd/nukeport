@@ -1,0 +1,18 @@
+# Binaries
+killport
+
+# Build folders
+dist/
+build/
+
+# macOS
+.DS_Store
+
+# IDE
+.vscode/
+
+# Go test binaries
+*.test
+
+# Coverage files
+coverage.out
