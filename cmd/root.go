@@ -3,6 +3,7 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/abhi44mbd/killport/internal/finder"
 	"github.com/spf13/cobra"
 )
 
@@ -20,7 +21,11 @@ running on specific ports.`,
 
 		port := args[0]
 
-		fmt.Printf("Searching process on port %s...\n", port)
+		err := finder.FindByPort(port)
+
+		if err != nil {
+			fmt.Println("No process found")
+		}
 	},
 }
 
