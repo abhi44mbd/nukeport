@@ -11,6 +11,10 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var force bool
+var yes bool
+var dryRun bool
+
 var rootCmd = &cobra.Command{
 	Use:   "killport",
 	Short: "Find and kill processes running on ports",
@@ -39,20 +43,28 @@ var rootCmd = &cobra.Command{
 			fmt.Printf("Port: %s\n", process.Port)
 			fmt.Printf("Command: %s\n", process.Command)
 
-			reader := bufio.NewReader(os.Stdin)
-
-			fmt.Print("Kill this process? (y/n): ")
-
-			input, _ := reader.ReadString('\n')
-
-			input = strings.TrimSpace(strings.ToLower(input))
-
-			if input != "y" {
-				fmt.Println("Operation cancelled")
+			if dryRun {
+				fmt.Println("Dry run enabled")
+				fmt.Printf("Would terminate PID %s\n", process.PID)
 				continue
 			}
 
-			err = killer.KillProcess(process.PID)
+			if !yes {
+				reader := bufio.NewReader(os.Stdin)
+
+				fmt.Print("Kill this process? (y/n): ")
+
+				input, _ := reader.ReadString('\n')
+
+				input = strings.TrimSpace(strings.ToLower(input))
+
+				if input != "y" {
+					fmt.Println("Operation cancelled")
+					continue
+				}
+			}
+
+			err = killer.KillProcess(process.PID, force)
 
 			if err != nil {
 				fmt.Println("Failed to kill process")
@@ -70,4 +82,10 @@ func Execute() {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func init() {
+	rootCmd.Flags().BoolVarP(&force, "force", "f", false, "Force kill process")
+	rootCmd.Flags().BoolVarP(&yes, "yes", "y", false, "Skip confirmation")
+	rootCmd.Flags().BoolVar(&dryRun, "dry-run", false, "Preview actions without killing")
 }

@@ -5,14 +5,20 @@ import (
 	"syscall"
 )
 
-func KillProcess(pid string) error {
+func KillProcess(pid string, force bool) error {
 	process, err := os.FindProcess(toInt(pid))
 
 	if err != nil {
 		return err
 	}
+	// SIGTERM is the default signal for graceful termination.
+	signal := syscall.SIGTERM
 
-	return process.Signal(syscall.SIGTERM)
+	if force {
+		signal = syscall.SIGKILL
+	}
+
+	return process.Signal(signal)
 }
 
 func toInt(value string) int {
