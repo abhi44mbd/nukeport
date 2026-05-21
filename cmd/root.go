@@ -8,6 +8,7 @@ import (
 
 	"github.com/abhi44mbd/killport/internal/finder"
 	"github.com/abhi44mbd/killport/internal/killer"
+	"github.com/abhi44mbd/killport/internal/output"
 	"github.com/spf13/cobra"
 )
 
@@ -37,14 +38,17 @@ var rootCmd = &cobra.Command{
 		}
 
 		for _, process := range processes {
-			fmt.Println("Process found")
-			fmt.Printf("Name: %s\n", process.Name)
-			fmt.Printf("PID: %s\n", process.PID)
-			fmt.Printf("Port: %s\n", process.Port)
-			fmt.Printf("Command: %s\n", process.Command)
+			output.Success("Process Found")
+			fmt.Printf(
+				"\nName:    %s\nPID:     %s\nPort:    %s\nCommand: %s\n\n",
+				process.Name,
+				process.PID,
+				process.Port,
+				process.Command,
+			)
 
 			if dryRun {
-				fmt.Println("Dry run enabled")
+				output.Info("Dry run enabled")
 				fmt.Printf("Would terminate PID %s\n", process.PID)
 				continue
 			}
@@ -59,7 +63,7 @@ var rootCmd = &cobra.Command{
 				input = strings.TrimSpace(strings.ToLower(input))
 
 				if input != "y" {
-					fmt.Println("Operation cancelled")
+					output.Warning("Operation cancelled")
 					continue
 				}
 			}
@@ -67,11 +71,11 @@ var rootCmd = &cobra.Command{
 			err = killer.KillProcess(process.PID, force)
 
 			if err != nil {
-				fmt.Println("Failed to kill process")
+				output.Error("Failed to kill process")
 				continue
 			}
 
-			fmt.Println("Process terminated successfully")
+			output.Success("Process terminated successfully")
 		}
 	},
 }
