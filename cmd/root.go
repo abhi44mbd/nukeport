@@ -1,9 +1,12 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
+	"os"
 
 	"github.com/abhi44mbd/killport/internal/finder"
+	"github.com/abhi44mbd/killport/internal/killer"
 	"github.com/spf13/cobra"
 )
 
@@ -32,6 +35,26 @@ running on specific ports.`,
 		fmt.Printf("Name: %s\n", process.Name)
 		fmt.Printf("PID: %s\n", process.PID)
 		fmt.Printf("Port: %s\n", process.Port)
+
+		reader := bufio.NewReader(os.Stdin)
+
+		fmt.Print("Kill this process? (y/n): ")
+
+		input, _ := reader.ReadString('\n')
+
+		if input != "y\n" {
+			fmt.Println("Operation cancelled")
+			return
+		}
+
+		err = killer.KillProcess(process.PID)
+
+		if err != nil {
+			fmt.Println("Failed to kill process")
+			return
+		}
+
+		fmt.Println("Process terminated successfully")
 	},
 }
 
