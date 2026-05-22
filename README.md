@@ -32,7 +32,7 @@ nukeport 3000
 
 ## Installation
 
-### Homebrew (Coming Soon)
+### Homebrew
 
 ```bash
 brew install abhi44mbd/tools/nukeport
